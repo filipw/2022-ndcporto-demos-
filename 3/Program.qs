@@ -50,8 +50,6 @@
     operation ResultsAgree(basis : Pauli, pair : Qubit[]) : Bool {
         let result1 = IsResultOne(Measure([basis], [pair[0]]));
         let result2 = IsResultOne(Measure([basis], [pair[1]]));
-
-        ResetAll(pair);
         return result1 == result2;
     }
 }

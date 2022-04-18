@@ -15,8 +15,8 @@
     }
 
     operation RunBB84Protocol(roundtrips : Int, rountripSize : Int, eavesdropperProbability : Double) : Unit {
-        mutable aliceKey = new Bool[0];
-        mutable bobKey = new Bool[0];
+        mutable aliceKey = [false, size = 0];
+        mutable bobKey = [false, size = 0];
 
         for roundtrip in 0..roundtrips-1 {
             use qubits = Qubit[rountripSize] {
@@ -58,7 +58,7 @@
     }
 
     operation GenerateRandomBitArray(length : Int) : Bool[] {
-        mutable bits = new Bool[length];
+        mutable bits = [false, size = length];
 
         for i in 0..length-1 {
             let randomBit = DrawRandomBool(0.5);
@@ -81,7 +81,7 @@
     }
 
     operation DecodeQubits(bases : Bool[], qubits : Qubit[]) : Bool[] {
-        mutable bits = new Bool[0];
+        mutable bits = [false, size = 0];
 
         for i in 0..Length(qubits)-1 {
             let result = Measure([bases[i] ? PauliX | PauliZ], [qubits[i]]);
@@ -103,8 +103,8 @@
     }
 
     function CompareBases(length : Int, basesAlice : Bool[], bitsAlice : Bool[], basesBob : Bool[], bitsBob : Bool[]) : (Bool[], Bool[]) {
-        mutable trimmedAliceBits = new Bool[0];
-        mutable trimmedBobBits = new Bool[0];
+        mutable trimmedAliceBits = [false, size = 0];
+        mutable trimmedBobBits = [false, size = 0];
 
         // compare bases and pick shared results
         for i in 0..length-1 {
@@ -120,9 +120,9 @@
     }
 
     operation EavesdropperCheck(aliceKey : Bool[], bobKey : Bool[]) : (Double, Bool[], Bool[]) {
-        mutable trimmedAliceKey = new Bool[0];
-        mutable trimmedBobKey = new Bool[0];
-        mutable eavesdropperIndices = new Int[0];
+        mutable trimmedAliceKey = [false, size = 0];
+        mutable trimmedBobKey = [false, size = 0];
+        mutable eavesdropperIndices = [0, size = 0];
 
         for i in 0..Length(aliceKey)-1 {
             let applyCheck = DrawRandomBool(0.5);

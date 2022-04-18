@@ -36,7 +36,6 @@
         let detectorResult = M(photon) == Zero ? "detector2" | "detector1";
 
         Message(detectorResult);
-        Reset(photon);
     }
 
     operation MachZehnderWithQND() : Unit {
@@ -56,6 +55,5 @@
         let detectorResult = M(photon) == Zero ? "detector2" | "detector1";
 
         Message($"{qndResult} | {detectorResult}");
-        Reset(photon);
     }
 }

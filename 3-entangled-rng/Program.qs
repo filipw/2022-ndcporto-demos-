@@ -9,11 +9,7 @@
     open Microsoft.Quantum.Preparation;
 
     @EntryPoint()
-    operation Start() : Unit {
-        EntangledRandomNumberGeneration();
-    }
-
-    operation EntangledRandomNumberGeneration() : Unit {
+    operation Main() : Unit {
         mutable agreedTotal = 0;
         for i in 1..100 {
             use alice = Qubit[8];
