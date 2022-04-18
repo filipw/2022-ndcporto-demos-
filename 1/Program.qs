@@ -10,10 +10,13 @@
 
     @EntryPoint()
     operation Start() : Unit {
+        Message("Mach Zehnder interferometer");
         for i in 1..10 {
             MachZehnder();
         }
-        Message("*********");
+        
+        Message("");
+        Message("Mach Zehnder interferometer with QNDs");
         for i in 1..10 {
             MachZehnderWithQND();
         }
@@ -30,7 +33,7 @@
         H(photon);
 
         // result is a certain Zero == "detector2" due to interference
-        let detectorResult = M(photon) == Zero ? "d2" | "d1";
+        let detectorResult = M(photon) == Zero ? "detector2" | "detector1";
 
         Message(detectorResult);
         Reset(photon);
@@ -44,13 +47,13 @@
         H(photon);
 
         // observe using the QND - it is a random Zero or One
-        let qndResult = M(photon) == Zero ? "q2" | "q1";
+        let qndResult = M(photon) == Zero ? "qnd2" | "qnd1";
 
         // second beam splitter
         H(photon);
 
         // result is a random Zero or One - interference disappears
-        let detectorResult = M(photon) == Zero ? "d2" | "d1";
+        let detectorResult = M(photon) == Zero ? "detector2" | "detector1";
 
         Message($"{qndResult} | {detectorResult}");
         Reset(photon);
