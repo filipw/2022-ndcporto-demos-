@@ -11,6 +11,7 @@
 
     @EntryPoint()
     operation Start() : Unit {
+        RunBB84Protocol(32, 16, 1.0);
         RunBB84Protocol(32, 16, 0.0);
     }
 
@@ -19,35 +20,34 @@
         mutable bobKey = [false, size = 0];
 
         for roundtrip in 0..roundtrips-1 {
-            use qubits = Qubit[rountripSize] {
+            use qubits = Qubit[rountripSize];
                 
-                // 1. Alice chooses her bases 
-                let aliceBases = GenerateRandomBitArray(rountripSize);
+            // 1. Alice chooses her bases 
+            let aliceBases = GenerateRandomBitArray(rountripSize);
 
-                // 2. Alice chooses her random bits 
-                let aliceValues = GenerateRandomBitArray(rountripSize);
+            // 2. Alice chooses her random bits 
+            let aliceValues = GenerateRandomBitArray(rountripSize);
 
-                // 3. Alice encodes the values in the qubits using the random bases 
-                EncodeQubits(aliceValues, aliceBases, qubits);
+            // 3. Alice encodes the values in the qubits using the random bases 
+            EncodeQubits(aliceValues, aliceBases, qubits);
 
-                // 4. Eve attempts to evesdrop based on the configurable probability
-                Eavesdrop(eavesdropperProbability, qubits);
+            // 4. Eve attempts to evesdrop based on the configurable probability
+            Eavesdrop(eavesdropperProbability, qubits);
 
-                // 5. Bob chooses his bases
-                let bobBases = GenerateRandomBitArray(rountripSize);
+            // 5. Bob chooses his bases
+            let bobBases = GenerateRandomBitArray(rountripSize);
 
-                // 6. Bob measures qubits using the random bases
-                let bobResults = DecodeQubits(bobBases, qubits);
+            // 6. Bob measures qubits using the random bases
+            let bobResults = DecodeQubits(bobBases, qubits);
 
-                // 7. Alice and Bob compare their bases and throw away those values that were encoded/decode in non-matching bases
-                let (aliceRoundTripResult, bobRoundTripResult) 
-                    = CompareBases(rountripSize, aliceBases, aliceValues, bobBases, bobResults);
+            // 7. Alice and Bob compare their bases and throw away those values that were encoded/decode in non-matching bases
+            let (aliceRoundTripResult, bobRoundTripResult) 
+                = CompareBases(rountripSize, aliceBases, aliceValues, bobBases, bobResults);
 
-                // 8. Append both key from this roundtrip to the overall key
-                // repeat however many times needed 
-                set aliceKey += aliceRoundTripResult;
-                set bobKey += bobRoundTripResult;
-            }
+            // 8. Append both key from this roundtrip to the overall key
+            // repeat however many times needed 
+            set aliceKey += aliceRoundTripResult;
+            set bobKey += bobRoundTripResult;
         }
         
         // 9. Perform the eavesdropper check
@@ -86,7 +86,6 @@
         for i in 0..Length(qubits)-1 {
             let result = Measure([bases[i] ? PauliX | PauliZ], [qubits[i]]);
             set bits += [ResultAsBool(result)];
-            Reset(qubits[i]);
         }
 
         return bits;
@@ -146,19 +145,9 @@
         return (errorRate, trimmedAliceKey, trimmedBobKey);
     }
 
-    function BoolArrayToString(array : Bool[]) : String {
-        mutable stringResult = "";
-
-        for item in array {
-            set stringResult += item ? "1" | "0";
-        }
-
-        return stringResult;
-    }
-
     function ProcessResults(errorRate : Double, aliceBits : Bool[], bobBits : Bool[], eavesdropperProbability : Double) : Unit {
-        Message($"Alice's key: {BoolArrayToString(aliceBits)} | key length: {IntAsString(Length(aliceBits))}");
-        Message($"Bob's key:   {BoolArrayToString(bobBits)} | key length: {IntAsString(Length(bobBits))}");
+        Message($"Alice's key: {BoolArrayAsBigInt(aliceBits)} | key length: {IntAsString(Length(aliceBits))}");
+        Message($"Bob's key:   {BoolArrayAsBigInt(bobBits)} | key length: {IntAsString(Length(bobBits))}");
 
         Message($"Error rate: {errorRate * IntAsDouble(100)}%");
         if (errorRate > 0.0) {

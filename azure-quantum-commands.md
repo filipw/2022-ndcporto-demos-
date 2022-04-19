@@ -17,7 +17,7 @@ az quantum workspace set -g {resource group name} -w {workspace name} -l {locati
 ```
 az quantum target list -o table   
 ```
-
+az quantum execute --target-id {target.name} --shots {count} -o table
 
 # Execution
 
@@ -25,12 +25,13 @@ az quantum target list -o table
 
 ```
 az quantum execute --target-id {target.name} --shots {count} -o table
+az quantum execute --target-id ionq.simulator --shots 10 -o table
 ```
 
 ## submit job
 
 ```
-az quantum job submit --target-id ionq.qpu --shots {count} -o table
+az quantum job submit --target-id ionq.qpu --shots 10 -o table
 ```
 
 ## show job status
