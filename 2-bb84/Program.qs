@@ -73,8 +73,8 @@
             let valueSelected = bits[i];
             if (valueSelected) { X(qubits[i]); }
 
-            // 0 will represent |0> and |1> computational (PauliZ) basis
-            // 1 will represent |-> and |+> Hadamard (PauliX) basis
+            // 0 will represent |0> and |1> Z (PauliZ) basis
+            // 1 will represent |-> and |+> X (PauliX) basis
             let basisSelected = bases[i];
             if (basisSelected) { H(qubits[i]); }
         }
