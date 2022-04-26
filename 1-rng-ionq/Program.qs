@@ -16,6 +16,7 @@
     operation RandomNumberGenerator() : Result[] {
         use qubits = Qubit[4];
         ApplyToEach(H, qubits);
-        return MultiM(qubits);
+        let results = MultiM(qubits);
+        return results;
     }  
 }

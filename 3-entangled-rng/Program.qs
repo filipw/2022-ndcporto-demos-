@@ -17,11 +17,8 @@
 
             PrepareEntangledState(bob, alice);
 
-            let aliceRegister = LittleEndian(alice);
-            let bobRegister = LittleEndian(bob);
-
-            let resultAlice = MeasureInteger(aliceRegister);
-            let resultBob = MeasureInteger(bobRegister);
+            let resultAlice = ReadRandomNumber(alice);
+            let resultBob = ReadRandomNumber(bob);
 
             Message($"Alice result: {resultAlice}, Bob result: {resultBob}");
             if (resultAlice == resultBob) {
@@ -30,5 +27,10 @@
         }
 
         Message($"Measurements agreed: {agreedTotal}");
+    }
+
+    operation ReadRandomNumber(qubits : Qubit[]) : Int {
+        let results = MultiM(qubits);
+        return ResultArrayAsInt(results);
     }
 }

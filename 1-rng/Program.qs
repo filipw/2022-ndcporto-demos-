@@ -16,14 +16,15 @@
 
     operation RandomNumberGenerator() : Int {
         use qubits = Qubit[16];
+
+        // create superposition
         ApplyToEach(H, qubits);
 
-        // create a QPU register
-        let register = LittleEndian(qubits);
+        // measure qubits
+        let results = MultiM(qubits);
 
-        // measure the entire register to retrieve the integer
-        let randomNumber = MeasureInteger(register);
-        
+        // convert to integer
+        let randomNumber = ResultArrayAsInt(results);
         return randomNumber;
     }  
 }

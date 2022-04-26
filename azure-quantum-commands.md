@@ -24,8 +24,8 @@ az quantum execute --target-id {target.name} --shots {count} -o table
 ## run on a simulator
 
 ```
-az quantum execute --target-id {target.name} --shots {count} -o table
-az quantum execute --target-id ionq.simulator --shots 10 -o table
+az quantum execute --target-id {target.name} -o table
+az quantum execute --target-id ionq.simulator -o table
 ```
 
 ## submit job
